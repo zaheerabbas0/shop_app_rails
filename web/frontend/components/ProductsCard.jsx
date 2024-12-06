@@ -1,72 +1,79 @@
 import { useState } from "react";
-import { Card, TextContainer, Text } from "@shopify/polaris";
-import { useAppBridge } from "@shopify/app-bridge-react";
-import { useTranslation } from "react-i18next";
+import { Card, TextContainer, Text, Layout, Thumbnail } from "@shopify/polaris";
 import { useQuery } from "react-query";
 
 export function ProductsCard() {
-  const shopify = useAppBridge();
-  const { t } = useTranslation();
   const [isPopulating, setIsPopulating] = useState(false);
-  const productsCount = 5;
+  const [products, setProducts] = useState([]);
 
   const {
     data,
-    refetch: refetchProductCount,
-    isLoading: isLoadingCount,
+    refetch: refetchProduct,
+    isLoading: isLoading,
   } = useQuery({
-    queryKey: ["productCount"],
+    queryKey: ["productList"],
     queryFn: async () => {
-      const response = await fetch("/api/products/count");
-      return await response.json();
+      const response = await fetch("/api/products");
+      const result = await response.json();
+      setProducts(result); // Save products to state
+      return result;
     },
     refetchOnWindowFocus: false,
   });
 
-  const setPopulating = (flag) => {
-    shopify.loading(flag);
-    setIsPopulating(flag);
-  };
-
   const handlePopulate = async () => {
-    setPopulating(true);
+    setIsPopulating(true);
     const response = await fetch("/api/products", { method: "POST" });
 
     if (response.ok) {
-      await refetchProductCount();
-
-      shopify.toast.show(
-        t("ProductsCard.productsCreatedToast", { count: productsCount })
-      );
-    } else {
-      shopify.toast.show(t("ProductsCard.errorCreatingProductsToast"), {
-        isError: true,
-      });
+      await refetchProduct();
     }
 
-    setPopulating(false);
+    setIsPopulating(false);
   };
 
   return (
     <Card
-      title={t("ProductsCard.title")}
+      title="Products"
       sectioned
       primaryFooterAction={{
-        content: t("ProductsCard.populateProductsButton", {
-          count: productsCount,
-        }),
+        content: `Populate Products`,
         onAction: handlePopulate,
         loading: isPopulating,
       }}
     >
       <TextContainer spacing="loose">
-        <p>{t("ProductsCard.description")}</p>
-        <Text as="h4" variant="headingMd">
-          {t("ProductsCard.totalProductsHeading")}
-          <Text variant="bodyMd" as="p" fontWeight="semibold">
-            {isLoadingCount ? "-" : data?.count}
-          </Text>
-        </Text>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+            gap: "16px",
+            marginTop: "20px",
+          }}
+        >
+          {products.map((product) => (
+            <Card key={product.id} sectioned>
+              <div style={{ textAlign: "center" }}>
+                {/* Display Product Image */}
+                {product.image ? (<Thumbnail source={product.image.src} alt={product.title} />) : (
+                  <Thumbnail
+                    source="https://via.placeholder.com/150"
+                    alt="Placeholder image"
+                  />
+                )}
+              </div>
+              <Text as="h5" variant="headingMd">
+                {product.title}
+              </Text>
+              <Text variant="bodyMd" as="p" fontWeight="semibold">
+                Type: {product.product_type || "Unknown"}
+              </Text>
+              <Text variant="bodyMd" as="p">
+                Vendor: {product.vendor}
+              </Text>
+            </Card>
+          ))}
+        </div>
       </TextContainer>
     </Card>
   );

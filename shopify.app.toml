@@ -1,21 +1,17 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "7949dfb776ef2be0bde2675437f4fcc9"
-application_url = "https://couple-clusters-elizabeth-televisions.trycloudflare.com"
+application_url = "https://casey-flight-developmental-circulation.trycloudflare.com"
 embedded = true
 name = "shop_app_rails"
 handle = "shop_app_rails"
 
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "mg-test-store-1.myshopify.com"
+
 [webhooks]
 api_version = "2024-10"
-
-  [[webhooks.subscriptions]]
-  topics = [ "app/scopes_update" ]
-  uri = "/api/webhooks/app_scopes_update"
-
-  [[webhooks.subscriptions]]
-  topics = [ "app/uninstalled" ]
-  uri = "/api/webhooks/app_uninstalled"
 
   [[webhooks.subscriptions]]
   uri = "/api/webhooks/customers_data_request"
@@ -29,20 +25,24 @@ api_version = "2024-10"
   uri = "/api/webhooks/shop_redact"
   compliance_topics = [ "shop/redact" ]
 
+  [[webhooks.subscriptions]]
+  topics = [ "app/scopes_update" ]
+  uri = "/api/webhooks/app_scopes_update"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "/api/webhooks/app_uninstalled"
+
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
 scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://couple-clusters-elizabeth-televisions.trycloudflare.com/auth/callback",
-  "https://couple-clusters-elizabeth-televisions.trycloudflare.com/auth/shopify/callback",
-  "https://couple-clusters-elizabeth-televisions.trycloudflare.com/api/auth/callback"
+  "https://casey-flight-developmental-circulation.trycloudflare.com/auth/callback",
+  "https://casey-flight-developmental-circulation.trycloudflare.com/auth/shopify/callback",
+  "https://casey-flight-developmental-circulation.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
 embedded = false
-
-[build]
-dev_store_url = "mg-test-store-2.myshopify.com"
-automatically_update_urls_on_dev = true
