@@ -14,7 +14,7 @@ module ShopifyAppTemplateRuby
     config.load_defaults(7.1)
 
     config.assets.prefix = "/api/assets"
-
+    config.eager_load_paths << Rails.root.join('lib')
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
@@ -27,7 +27,7 @@ module ShopifyAppTemplateRuby
         "Access-Control-Expose-Headers" => "X-Shopify-API-Request-Failure-Reauthorize-Url",
       })
     end
-
+    config.active_job.queue_adapter = :sidekiq
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

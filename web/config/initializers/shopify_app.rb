@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 ShopifyApp.configure do |config|
   config.application_name = "My Shopify App"
   config.scope = ENV.fetch("SCOPES", "write_products") # See shopify.app.toml for scopes

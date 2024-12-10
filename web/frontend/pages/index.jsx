@@ -19,7 +19,6 @@ export default function HomePage() {
   const { t } = useTranslation();
   return (
     <Page narrowWidth>
-      
       <Layout>
         <Layout.Section>
         </Layout.Section>

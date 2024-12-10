@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "7949dfb776ef2be0bde2675437f4fcc9"
-application_url = "https://casey-flight-developmental-circulation.trycloudflare.com"
+application_url = "https://peripheral-pursuit-chapters-classified.trycloudflare.com"
 embedded = true
 name = "shop_app_rails"
 handle = "shop_app_rails"
@@ -39,9 +39,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://casey-flight-developmental-circulation.trycloudflare.com/auth/callback",
-  "https://casey-flight-developmental-circulation.trycloudflare.com/auth/shopify/callback",
-  "https://casey-flight-developmental-circulation.trycloudflare.com/api/auth/callback"
+  "https://peripheral-pursuit-chapters-classified.trycloudflare.com/auth/callback",
+  "https://peripheral-pursuit-chapters-classified.trycloudflare.com/auth/shopify/callback",
+  "https://peripheral-pursuit-chapters-classified.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
