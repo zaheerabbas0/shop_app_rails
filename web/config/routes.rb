@@ -7,11 +7,15 @@ Rails.application.routes.draw do
 
   scope path: :api, format: :json do
     # POST /api/products and GET /api/products/index
-    resources :products, only: :create do
+    resources :products, only: [:create] do
       collection do
         get :index
+        get :available_stores
+        post :select_target_store
+        post :transfer_products
       end
     end
+
     namespace :webhooks do
       post "/app_uninstalled", to: "app_uninstalled#receive"
       post "/app_scopes_update", to: "app_scopes_update#receive"
@@ -20,7 +24,9 @@ Rails.application.routes.draw do
       post "/shop_redact", to: "shop_redact#receive"
     end
   end
-
+  
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
   mount ShopifyApp::Engine, at: "/api"
   get "/api", to: redirect(path: "/") # Needed because our engine root is /api but that breaks frontend routing
 
@@ -30,3 +36,4 @@ Rails.application.routes.draw do
   # Any other routes will just render the react app
   match "*path" => "home#index", via: [:get, :post]
 end
+  
