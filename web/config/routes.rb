@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
+  post '/webhooks/products_update', to: 'webhooks#products_update'
   mount ShopifyApp::Engine, at: "/api"
   get "/api", to: redirect(path: "/") # Needed because our engine root is /api but that breaks frontend routing
 
