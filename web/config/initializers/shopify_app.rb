@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 ShopifyApp.configure do |config|
+  config.webhooks = [
+    {topic: 'webhooks/update', path: 'api/webhooks/update'}
+  ]
   config.application_name = "My Shopify App"
   config.scope = ENV.fetch("SCOPES", "write_products") # See shopify.app.toml for scopes
   # Consult this page for more scope options: https://shopify.dev/api/usage/access-scopes
@@ -37,8 +40,8 @@ ShopifyApp.configure do |config|
   #   currency_code: "USD", # Only supports USD for now
   # )
 
-  config.api_key = ENV.fetch("SHOPIFY_API_KEY", "").presence
-  config.secret = ENV.fetch("SHOPIFY_API_SECRET", "").presence
+  config.api_key = Rails.application.credentials.SHOPIFY_API_KEY
+  config.secret = Rails.application.credentials.SHOPIFY_API_SECRET
   # Set `old_secret` to the old secret when rotating client credentials
   # https://shopify.dev/docs/apps/build/authentication-authorization/client-secrets/rotate-revoke-client-credentials
   config.old_secret = ""
